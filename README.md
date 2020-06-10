@@ -1,9 +1,11 @@
 # Weather Service
 A Java weather microservice
 
+
 ## Prerequisite
 1.  Java 11 (latest long term support version)
 2.  Maven 3.6.2+
+
 
 ### Mac
 1.  brew tap AdoptOpenJDK/openjdk
@@ -11,35 +13,20 @@ A Java weather microservice
 3.  export JAVA_HOME=`/usr/libexec/java_home -v 11`
 4.  brew install maven
 
+
 ## Setup
-1.
+1. `echo 'WEATHER_API_TOKEN=YOUR_TOKEN_HERE' > .env`
 
 
-## First Setup
-```
-mvn io.quarkus:quarkus-maven-plugin:1.5.0.Final:create \
-    -DprojectGroupId=org.acme \
-    -DprojectArtifactId=weather-service \
-    -DclassName="org.acme.resources.WeatherResource" \
-    -Dpath="/weather"
-cd weather
-```
+## Tests
+1. `./mvnw test`
 
 
-# weather-service project
+## Development
+1.  `./mvnw quarkus:dev`
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
-
-## Running the application in dev mode
-
-You can run your application in dev mode that enables live coding using:
-```
-./mvnw quarkus:dev
-```
-
-## Packaging and running the application
+## Packaging
 
 The application can be packaged using `./mvnw package`.
 It produces the `weather-service-1.0-SNAPSHOT-runner.jar` file in the `/target` directory.

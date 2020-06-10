@@ -1,21 +1,36 @@
 package org.acme.resources;
 
 import io.quarkus.test.junit.QuarkusTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.parsing.Parser;
+import io.restassured.response.Response;
+
 @QuarkusTest
 public class WeatherResourceTest {
+    public static Response doGetRequest(String endpoint) {
+        RestAssured.defaultParser = Parser.JSON;
 
-    @Test
-    public void testHelloEndpoint() {
-        given()
-          .when().get("/weather")
-          .then()
-             .statusCode(200)
-             .body(is("hello"));
+        return
+            given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON).
+                when().get(endpoint).
+                then().contentType(ContentType.JSON).extract().response();
     }
 
+    @Test
+    public void testGetWeatherEndpoint() {
+        Response response = doGetRequest("/weather?zip=junk");
+        String temperature = response.jsonPath().getString("temperature");
+        String zip = response.jsonPath().getString("zip");
+        assertEquals(null, temperature, "Temperature should be null");
+        assertEquals("junk", zip, "Zip should be equal");
+    }
 }
