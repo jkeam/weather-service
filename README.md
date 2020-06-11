@@ -1,34 +1,38 @@
 # Weather Service
-A Java weather microservice
+A Java weather microservice.
 
 
 ## Prerequisite
-1.  Java 11 (latest long term support version)
+1.  Java 11+
 2.  Maven 3.6.2+
 3.  [kn](https://github.com/knative/client) (make sure it's installed and properly configured to connect to your cluster)
+4.  Valid account and API token from [OpenWeather](https://openweathermap.org/api)
 
 
 ### Mac
-1.  brew tap AdoptOpenJDK/openjdk
-2.  brew cask install adoptopenjdk11
-3.  export JAVA_HOME=`/usr/libexec/java_home -v 11`
-4.  brew install maven
+Install Java and Maven
+```
+brew tap AdoptOpenJDK/openjdk
+brew cask install adoptopenjdk11
+export JAVA_HOME=`/usr/libexec/java_home -v 11`
+brew install maven
+```
 
 
 ## Setup
-1. `echo 'WEATHER_API_TOKEN=YOUR_TOKEN_HERE' > .env`
+`echo 'WEATHER_API_TOKEN=YOUR_TOKEN_HERE' > .env`
 
 
 ## Tests
-1. `./mvnw test`
+`./mvnw test`
 
 
 ## Development
-1.  `./mvnw quarkus:dev`
+`./mvnw quarkus:dev`
 
 
 ## OpenShift
-To deploy on OpenShift, run the following, but make sure to replace with your own Dockerhub username.
+To deploy on OpenShift, run the following, but make sure to replace with your own Dockerhub username and your workspace name.
 
 ```
 cd $PROJECT_ROOT
