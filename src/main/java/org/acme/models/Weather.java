@@ -3,6 +3,9 @@ package org.acme.models;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Weather data
+ */
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class Weather {
     private String temperature;
