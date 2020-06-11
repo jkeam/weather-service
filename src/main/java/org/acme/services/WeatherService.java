@@ -38,7 +38,7 @@ public class WeatherService {
                 return new Weather(zip);
             }
 
-            Map<String, Double> main = (Map<String, Double>)map.get("main");
+            Map<String, Object> main = (Map<String, Object>)map.get("main");
             // {temp=89.26, feels_like=88.79, temp_min=87.01, temp_max=91, pressure=1012, humidity=59}
             return new Weather(zip, main.get("temp").toString());
         } catch(Exception e) {
