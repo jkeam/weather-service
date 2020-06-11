@@ -1,8 +1,7 @@
 package org.acme.services;
 
-import org.acme.models.Weather;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.acme.models.Weather;
 
 import java.net.URI;
 import java.net.http.HttpClient;
