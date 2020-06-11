@@ -5,6 +5,7 @@ A Java weather microservice
 ## Prerequisite
 1.  Java 11 (latest long term support version)
 2.  Maven 3.6.2+
+3.  [kn](https://github.com/knative/client) (make sure it's installed and properly configured to connect to your cluster)
 
 
 ### Mac
@@ -26,7 +27,21 @@ A Java weather microservice
 1.  `./mvnw quarkus:dev`
 
 
-## Packaging
+## OpenShift
+To deploy on OpenShift, run the following, but make sure to replace with your own Dockerhub username.
+
+```
+cd $PROJECT_ROOT
+cp ./src/main/docker/Dockerfile.jvm .
+docker login
+docker build -t your_dockerhub_username_here/weather-service .
+docker push your_dockerhub_username_here/weather-service
+kn service create weather-service --namespace yournamespace_here --image registry.hub.docker.com/your_dockerhub_username_here/weather-service:latest --env WEATHER_API_TOKEN=your_weather_api_token_here --force
+```
+
+
+## Misc
+### Packaging
 
 The application can be packaged using `./mvnw package`.
 It produces the `weather-service-1.0-SNAPSHOT-runner.jar` file in the `/target` directory.
@@ -34,7 +49,7 @@ Be aware that it’s not an _über-jar_ as the dependencies are copied into the 
 
 The application is now runnable using `java -jar target/weather-service-1.0-SNAPSHOT-runner.jar`.
 
-## Creating a native executable
+### Creating a native executable
 
 You can create a native executable using: `./mvnw package -Pnative`.
 
