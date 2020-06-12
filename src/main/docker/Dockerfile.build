@@ -33,10 +33,10 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
 RUN microdnf install curl ca-certificates ${JAVA_PACKAGE} \
     && microdnf update \
     && microdnf clean all \
-    && mkdir /deployments \
-    && chown 1001 /deployments \
-    && chmod "g+rwX" /deployments \
-    && chown 1001:root /deployments \
+    && mkdir -p /deployments/lib \
+    && chown -R 1001 /deployments \
+    && chmod -R "g+rwX" /deployments \
+    && chown -R 1001:root /deployments \
     && curl https://repo1.maven.org/maven2/io/fabric8/run-java-sh/${RUN_JAVA_VERSION}/run-java-sh-${RUN_JAVA_VERSION}-sh.sh -o /deployments/run-java.sh \
     && chown 1001 /deployments/run-java.sh \
     && chmod 540 /deployments/run-java.sh \
@@ -49,10 +49,7 @@ ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jb
 
 ADD . /opt/weather
 WORKDIR /opt/weather
-RUN chmod +x mvnw && ./mvnw package
-
-COPY target/lib/* /deployments/lib/
-COPY target/*-runner.jar /deployments/app.jar
+RUN chmod +x mvnw && ./mvnw package && cp target/lib/* /deployments/lib/ && cp target/*-runner.jar /deployments/app.jar
 
 EXPOSE 8080
 USER 1001
