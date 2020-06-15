@@ -46,7 +46,7 @@ public class WeatherService {
 
             Map<String, Object> main = (Map<String, Object>)map.get(WEATHER_MAIN_FIELD);
             // {temp=89.26, feels_like=88.79, temp_min=87.01, temp_max=91, pressure=1012, humidity=59}
-            return new Weather(zip, main.get(WEATHER_TEMPERATURE_FIELD).toString());
+            return new Weather(zip, Float.parseFloat(main.get(WEATHER_TEMPERATURE_FIELD).toString()));
         } catch(Exception e) {
             System.err.println(e);
             return new Weather(zip);

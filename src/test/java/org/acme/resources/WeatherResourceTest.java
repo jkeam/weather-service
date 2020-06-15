@@ -8,6 +8,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @QuarkusTest
@@ -26,7 +27,7 @@ public class WeatherResourceTest {
         Response response = doGetRequest("/weather?zip=junk");
         String temperature = response.jsonPath().getString("temperature");
         String zip = response.jsonPath().getString("zip");
-        assertNull(temperature, "Temperature should be null");
+        assertEquals("0.0", temperature, "Temperature should not be set");
         assertNull(zip, "Zip should be null");
     }
 }
