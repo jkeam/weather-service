@@ -32,7 +32,7 @@ brew install maven
 
 
 ## OpenShift
-To deploy on OpenShift, run the following, but make sure to replace with your own Dockerhub username and your workspace name.
+To deploy on OpenShift, run the following, but make sure to replace with your own Dockerhub username and your workspace name.  Note uses `kn`.
 
 ```
 cd $PROJECT_ROOT
