@@ -44,6 +44,29 @@ kn service create weather-service --namespace yournamespace_here --image registr
 ```
 
 
+## CodeReady workspace
+Open a terminal and run the following.
+
+```
+ssh-keygen -t rsa
+cat ~/.ssh/id_rsa.pub  # Add this key to your github profile
+git config --global user.name "Jon Keam"
+git config --global user.email jkeam@redhat.com
+```
+
+Also create a `~/.ssh/config` that looks like
+```
+Host github.com
+IdentityFile ~/.ssh/id_rsa
+```
+
+Now you can clone your repo, something like this:
+```
+git clone git@github.com:jkeam/weather-service.git`
+cd weather-service
+```
+
+
 ## Misc
 ### Packaging
 
