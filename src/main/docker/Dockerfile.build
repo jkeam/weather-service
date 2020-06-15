@@ -45,7 +45,7 @@ RUN microdnf install curl ca-certificates ${JAVA_PACKAGE} \
 # Configure the JAVA_OPTIONS, you can add -XshowSettings:vm to also display the heap size.
 ENV WEATHER_API_TOKEN="junk"
 ENV JAVA_HOME="/etc/alternatives/jre"
-ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Dvertx.cacheDirBase=/tmp/vertx"
 
 ADD . /opt/weather
 WORKDIR /opt/weather
