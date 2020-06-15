@@ -43,13 +43,12 @@ RUN microdnf install curl ca-certificates ${JAVA_PACKAGE} \
     && echo "securerandom.source=file:/dev/urandom" >> /etc/alternatives/jre/lib/security/java.security
 
 # Configure the JAVA_OPTIONS, you can add -XshowSettings:vm to also display the heap size.
-ENV WEATHER_API_TOKEN="junk"
 ENV JAVA_HOME="/etc/alternatives/jre"
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Dvertx.cacheDirBase=/tmp/vertx"
 
 ADD . /opt/weather
 WORKDIR /opt/weather
-RUN chmod +x mvnw && ./mvnw package && cp target/lib/* /deployments/lib/ && cp target/*-runner.jar /deployments/app.jar
+RUN chmod +x mvnw && ./mvnw -DWEATHER_API_TOKEN=junk package && cp target/lib/* /deployments/lib/ && cp target/*-runner.jar /deployments/app.jar
 
 EXPOSE 8080
 USER 1001
