@@ -25,7 +25,7 @@ public class WeatherService {
     private static final String WEATHER_MAIN_FIELD = "main";
     private static final String WEATHER_TEMPERATURE_FIELD = "temp";
 
-    public static Weather findWeather(String apiToken, String zip) {
+    public static Weather findWeather(String apiToken, Integer zip) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(String.format(API_URL, zip, apiToken)))

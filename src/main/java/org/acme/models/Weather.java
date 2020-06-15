@@ -9,14 +9,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class Weather {
     private String temperature;
-    private String zip;
+    private Integer zip;
 
     public Weather() {
     }
-    public Weather(String zip) {
+    public Weather(Integer zip) {
         this.zip = zip;
     }
-    public Weather(String zip, String temperature) {
+    public Weather(Integer zip, String temperature) {
         this.zip = zip;
         this.temperature = temperature;
     }
@@ -32,12 +32,12 @@ public class Weather {
     }
 
     @JsonProperty("zip")
-    public String getZip() {
+    public Integer getZip() {
         return zip;
     }
 
     @JsonProperty("zip")
-    public void setZip(String zip) {
+    public void setZip(Integer zip) {
         this.zip = zip;
     }
 }

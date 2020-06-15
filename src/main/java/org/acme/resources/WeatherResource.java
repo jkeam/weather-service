@@ -22,8 +22,13 @@ public class WeatherResource {
     @GET
     public Weather getWeather(@QueryParam("zip") String zip) {
         if (zip == null || zip.isEmpty()) {
-            return null;
+            return new Weather();
         }
-        return WeatherService.findWeather(weatherApiToken, zip);
+        try {
+            return WeatherService.findWeather(weatherApiToken, Integer.parseInt(zip));
+        } catch (NumberFormatException nfe) {
+            System.err.println(String.format("Unable to format %s", zip));
+            return new Weather();
+        }
     }
 }

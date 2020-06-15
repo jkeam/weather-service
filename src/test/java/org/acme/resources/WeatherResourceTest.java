@@ -28,6 +28,6 @@ public class WeatherResourceTest {
         String temperature = response.jsonPath().getString("temperature");
         String zip = response.jsonPath().getString("zip");
         assertNull(temperature, "Temperature should be null");
-        assertEquals("junk", zip, "Zip should be equal");
+        assertNull(zip, "Zip should be null");
     }
 }
