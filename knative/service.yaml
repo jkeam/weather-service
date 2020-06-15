@@ -9,10 +9,10 @@ spec:
       revisionTemplate:
         spec:
           container:
-            - image: __IMAGE__
-              env:
-                - name: WEATHER_API_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: weather-api
-                      key: token
+            image: __IMAGE__
+            env:
+              - name: WEATHER_API_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: weather-api
+                    key: token
