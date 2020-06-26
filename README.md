@@ -2,11 +2,13 @@
 A Java weather microservice.
 
 
-## Prerequisite
-1.  Java 11+
-2.  Maven 3.6.2+
-3.  [kn](https://github.com/knative/client) (make sure it's installed and properly configured to connect to your cluster)
-4.  Valid account and API token from [OpenWeather](https://openweathermap.org/api)
+## Prerequisites
+1.  OCP 4.4 with Serverless Operator installed
+2.  Java 11+
+3.  Maven 3.6.2+
+4.  [kn](https://github.com/knative/client) (make sure it's installed and properly configured to connect to your cluster)
+5.  Valid account and API token from [OpenWeather](https://openweathermap.org/api)
+6.  `oc new-project knativetutorial`
 
 
 ### Mac
@@ -85,3 +87,41 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./target/weather-service-1.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image.
+
+
+## Serverless Installation
+These instructions are just here for reference, as you can find the full instructions [here](https://docs.openshift.com/container-platform/4.4/serverless/installing_serverless/installing-openshift-serverless.html).
+
+1.  Install Serverless Operator
+2.  `oc new-project knative-serving`
+3.  Create `serving.yml`
+```
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeServing
+metadata:
+    name: knative-serving
+    namespace: knative-serving
+```
+4.  `oc apply -f ./serving.yml`
+5.  `oc new-project knative-eventing`
+6.  Create `eventing.yml`
+```
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeEventing
+metadata:
+    name: knative-eventing
+    namespace: knative-eventing
+```
+7.  `oc apply -f ./eventing.yml`
+8.  Run the following to verify that it is ready
+```
+oc get knativeeventing.operator.knative.dev/knative-eventing \
+  -n knative-eventing \
+  --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
+```
+
+And wait for this result:
+```
+InstallSucceeded=True
+Ready=True
+```
