@@ -38,10 +38,14 @@ To deploy on OpenShift, run the following, but make sure to replace with your ow
 
 ```
 cd $PROJECT_ROOT
+# build
+./mvnw clean package -Dquarkus.s2i.base-jvm-image=fabric8/s2i-java:latest-java11 -Dquarkus.openshift.env-vars.weather-api-token.value=weather_api_token_here -Dquarkus.kubernetes-client.trust-certs=true -Dquarkus.container-image.build=true -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacert -Djavax.net.ssl.trustStorePassword=changeit
 cp ./src/main/docker/Dockerfile.jvm .
+# push to docker
 docker login
 docker build -t your_dockerhub_username_here/weather-service .
 docker push your_dockerhub_username_here/weather-service
+# deploy
 kn service create weather-service --namespace yournamespace_here --image registry.hub.docker.com/your_dockerhub_username_here/weather-service:latest --env WEATHER_API_TOKEN=your_weather_api_token_here --force
 ```
 
@@ -103,8 +107,19 @@ metadata:
     namespace: knative-serving
 ```
 4.  `oc apply -f ./serving.yml`
-5.  `oc new-project knative-eventing`
-6.  Create `eventing.yml`
+5.  Verify it is up
+```
+oc get knativeserving.operator.knative.dev/knative-serving -n knative-serving --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
+```
+and look for:
+```
+DependenciesInstalled=True
+DeploymentsAvailable=True
+InstallSucceeded=True
+Ready=True
+```
+6.  `oc new-project knative-eventing`
+7.  Create `eventing.yml`
 ```
 apiVersion: operator.knative.dev/v1alpha1
 kind: KnativeEventing
@@ -112,14 +127,13 @@ metadata:
     name: knative-eventing
     namespace: knative-eventing
 ```
-7.  `oc apply -f ./eventing.yml`
-8.  Run the following to verify that it is ready
+8.  `oc apply -f ./eventing.yml`
+9.  Run the following to verify that it is ready
 ```
 oc get knativeeventing.operator.knative.dev/knative-eventing \
   -n knative-eventing \
   --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
 ```
-
 And wait for this result:
 ```
 InstallSucceeded=True
