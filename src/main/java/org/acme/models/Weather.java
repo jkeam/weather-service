@@ -10,15 +10,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Weather {
     private float temperature;
     private Integer zip;
+    private float feelsLike;
 
     public Weather() {
     }
     public Weather(Integer zip) {
         this.zip = zip;
     }
-    public Weather(Integer zip, float temperature) {
+    public Weather(Integer zip, float temperature, float feelsLike) {
         this.zip = zip;
         this.temperature = temperature;
+        this.feelsLike = feelsLike;
     }
 
     @JsonProperty("temperature")
@@ -39,5 +41,15 @@ public class Weather {
     @JsonProperty("zip")
     public void setZip(Integer zip) {
         this.zip = zip;
+    }
+
+    @JsonProperty("feelsLike")
+    public float getFeelsLike() {
+        return feelsLike;
+    }
+
+    @JsonProperty("feelsLike")
+    public void setFeelsLike(float feelsLike) {
+        this.feelsLike = feelsLike;
     }
 }
