@@ -38,13 +38,22 @@ To deploy on OpenShift, run the following, but make sure to replace with your ow
 
 ```
 cd $PROJECT_ROOT
-# build
-./mvnw clean package -Dquarkus.s2i.base-jvm-image=fabric8/s2i-java:latest-java11 -Dquarkus.openshift.env-vars.weather-api-token.value=weather_api_token_here -Dquarkus.kubernetes-client.trust-certs=true -Dquarkus.container-image.build=true -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacert -Djavax.net.ssl.trustStorePassword=changeit
-cp ./src/main/docker/Dockerfile.jvm .
+
+# to build locally
+# ./mvnw clean package -Dquarkus.s2i.base-jvm-image=fabric8/s2i-java:latest-java11 -Dquarkus.openshift.env-vars.weather-api-token.value=weather_api_token_here -Dquarkus.kubernetes-client.trust-certs=true -Dquarkus.container-image.build=true -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacert -Djavax.net.ssl.trustStorePassword=changeit
+# cp ./src/main/docker/Dockerfile.jvm .
+
+# to build completely using docker and jvm
+# cp ./src/main/docker/Dockerfile.build .
+
+# to build completely using docker and native
+cp ./src/main/docker/Dockerfile.multistage .
+
 # push to docker
 docker login
 docker build -t your_dockerhub_username_here/weather-service .
 docker push your_dockerhub_username_here/weather-service
+
 # deploy
 kn service create weather-service --namespace yournamespace_here --image registry.hub.docker.com/your_dockerhub_username_here/weather-service:latest --env WEATHER_API_TOKEN=your_weather_api_token_here --force
 ```
