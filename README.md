@@ -28,6 +28,20 @@ brew install maven
 ## Tests
 `./mvnw test`
 
+### Native
+Native images run a different set of tests.
+
+```
+# run tests
+./mvnw verify -Pnative
+
+# testing an existing native executable
+./mvnw test-compile failsafe:integration-test
+```
+
+### Code Coverage
+Whenever you run tests, a coverage report is generated that can be found here `./target/site/jacoco/index.html`.
+
 
 ## Development
 `./mvnw quarkus:dev`
