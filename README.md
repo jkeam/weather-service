@@ -120,17 +120,35 @@ If you want to learn more about building native executables, please consult http
 These instructions are just here for reference, as you can find the full instructions [here](https://docs.openshift.com/container-platform/4.4/serverless/installing_serverless/installing-openshift-serverless.html).
 
 1.  Install Serverless Operator
-2.  `oc new-project knative-serving`
-3.  Create `serving.yml`
+2.  Install Jaeger Operator
+3.  `oc project knativetutorial`
+4.  Create tracing.yml
+```
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: jaeger
+  namespace: knativetutorial
+```
+5.  `oc apply -f ./tracing.yml`
+6.  `oc new-project knative-serving`
+7.  Create `serving.yml`
 ```
 apiVersion: operator.knative.dev/v1alpha1
 kind: KnativeServing
 metadata:
-    name: knative-serving
-    namespace: knative-serving
+  name: knative-serving
+  namespace: knative-serving
+spec:
+  config:
+    tracing:
+      sample-rate: "0.1"
+      backend: zipkin
+      zipkin-endpoint: http://jaeger-collector.knativetutorial.svc.cluster.local:9411/api/v2/spans
+      debug: "false"
 ```
-4.  `oc apply -f ./serving.yml`
-5.  Verify it is up
+8.  `oc apply -f ./serving.yml`
+9.  Verify it is up
 ```
 oc get knativeserving.operator.knative.dev/knative-serving -n knative-serving --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
 ```
@@ -141,8 +159,8 @@ DeploymentsAvailable=True
 InstallSucceeded=True
 Ready=True
 ```
-6.  `oc new-project knative-eventing`
-7.  Create `eventing.yml`
+10.  `oc new-project knative-eventing`
+11.  Create `eventing.yml`
 ```
 apiVersion: operator.knative.dev/v1alpha1
 kind: KnativeEventing
@@ -150,8 +168,8 @@ metadata:
     name: knative-eventing
     namespace: knative-eventing
 ```
-8.  `oc apply -f ./eventing.yml`
-9.  Run the following to verify that it is ready
+12.  `oc apply -f ./eventing.yml`
+13.  Run the following to verify that it is ready
 ```
 oc get knativeeventing.operator.knative.dev/knative-eventing \
   -n knative-eventing \
