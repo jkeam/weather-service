@@ -14,7 +14,7 @@ COPY src /usr/src/app/src
 USER root
 RUN chown -R quarkus /usr/src/app
 USER quarkus
-RUN mvn -f /usr/src/app/pom.xml -DWEATHER_API_TOKEN=junk -Dquarkus.http.host=0.0.0.0 -Dvertx.cacheDirBase=/tmp/vertx -Pnative clean package
+RUN mvn -f /usr/src/app/pom.xml -Djacoco.skip=true -DWEATHER_API_TOKEN=junk -Dquarkus.http.host=0.0.0.0 -Dvertx.cacheDirBase=/tmp/vertx -Pnative clean package
 
 
 ## Stage 2 : create the docker final image
