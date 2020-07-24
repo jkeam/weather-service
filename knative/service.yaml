@@ -5,6 +5,10 @@ metadata:
   namespace: knativetutorial
 spec:
   template:
+    metadata:
+      name: weather-service
+      annotations:
+        autoscaling.knative.dev/target: "10"
     spec:
       containers:
         - image: __IMAGE__
