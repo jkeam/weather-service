@@ -5,9 +5,6 @@ metadata:
   namespace: knativetutorial
 spec:
   template:
-    metadata:
-      annotations:
-        autoscaling.knative.dev/target: "10"
     spec:
       containers:
         - image: __IMAGE__
